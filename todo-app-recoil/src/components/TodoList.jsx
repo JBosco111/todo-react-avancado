@@ -1,5 +1,4 @@
-import { useMemo } from "react";
-import { useTodo } from "../context/TodoContext";
+import { useTodos } from "../hooks/useTodos";
 import { TodoItem } from "./TodoItem";
 
 const EMPTY_MESSAGES = {
@@ -10,22 +9,14 @@ const EMPTY_MESSAGES = {
 
 /**
  * TodoList
- * Usa useMemo para calcular a lista filtrada apenas quando
- * `todos` ou `filter` mudarem — evita recalcular em toda re-renderização.
+ * Consome filteredTodosSelector via useTodos —
+ * o Recoil já memoiza o seletor, então a lista só é recalculada
+ * quando todosAtom ou filterAtom realmente mudam.
  */
 export function TodoList() {
   console.log("[TodoList] renderizando");
 
-  const { todos, filter, toggleTodo, removeTodo } = useTodo();
-
-  const filteredTodos = useMemo(() => {
-    console.log("[useMemo] recalculando lista filtrada...");
-    return todos.filter((t) => {
-      if (filter === "done") return t.done;
-      if (filter === "pending") return !t.done;
-      return true;
-    });
-  }, [todos, filter]);
+  const { filteredTodos, filter, toggleTodo, removeTodo } = useTodos();
 
   if (filteredTodos.length === 0) {
     const { title, sub } = EMPTY_MESSAGES[filter];

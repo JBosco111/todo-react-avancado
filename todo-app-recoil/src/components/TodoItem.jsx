@@ -2,8 +2,8 @@ import { memo } from "react";
 
 /**
  * TodoItem
- * Wrapped com React.memo: só re-renderiza se suas props (id, text, done) mudarem.
- * Evita que toda a lista seja re-renderizada ao modificar um único item.
+ * React.memo: só re-renderiza se id, text ou done mudarem.
+ * Recebe callbacks do pai para toggle e remove — sem acessar Recoil diretamente.
  */
 export const TodoItem = memo(function TodoItem({ id, text, done, date, onToggle, onRemove }) {
   console.log(`[TodoItem] renderizando: "${text}"`);

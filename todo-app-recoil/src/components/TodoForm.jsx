@@ -1,19 +1,20 @@
-import { useTodo } from "../context/TodoContext";
+import { useTodos } from "../hooks/useTodos";
 import { useInput } from "../hooks/useInput";
 
 /**
  * TodoForm
- * Componente para adicionar novas tarefas.
- * Usa o hook customizado useInput para controlar o campo de texto.
+ * Usa o hook customizado useInput para controlar o campo,
+ * e useTodos (que internamente usa useSetRecoilState) para adicionar tarefas.
  */
 export function TodoForm() {
-  const { addTodo } = useTodo();
+  console.log("[TodoForm] renderizando");
+
+  const { addTodo } = useTodos();
   const { value, onChange, clear, onKeyDown } = useInput("");
 
   const handleAdd = () => {
-    const text = value.trim();
-    if (!text) return;
-    addTodo(text);
+    if (!value.trim()) return;
+    addTodo(value);
     clear();
   };
 

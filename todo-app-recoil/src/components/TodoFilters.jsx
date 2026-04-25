@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { useTodo } from "../context/TodoContext";
+import { useTodos } from "../hooks/useTodos";
 
 const FILTERS = [
   { key: "all", label: "todas" },
@@ -9,12 +9,13 @@ const FILTERS = [
 
 /**
  * TodoFilters
- * Wrapped com React.memo para evitar re-renderizações quando o filtro não muda.
+ * Lê filterAtom via useTodos e chama setFilter para atualizar o átomo.
+ * React.memo evita re-renderização quando apenas os todos mudam.
  */
 export const TodoFilters = memo(function TodoFilters() {
   console.log("[TodoFilters] renderizando");
 
-  const { filter, setFilter } = useTodo();
+  const { filter, setFilter } = useTodos();
 
   return (
     <div className="filters">

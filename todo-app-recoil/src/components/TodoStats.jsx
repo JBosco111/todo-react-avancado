@@ -1,21 +1,17 @@
-import { useMemo, memo } from "react";
-import { useTodo } from "../context/TodoContext";
+import { memo } from "react";
+import { useTodos } from "../hooks/useTodos";
 
 /**
  * TodoStats
- * Usa useMemo para calcular as estatísticas apenas quando `todos` mudar.
- * Wrapped com React.memo para evitar re-render quando o filtro muda.
+ * Consome todoStatsSelector via useTodos.
+ * Como todoStatsSelector depende apenas de todosAtom (não de filterAtom),
+ * este componente NÃO re-renderiza ao trocar o filtro ativo.
+ * React.memo reforça essa proteção.
  */
 export const TodoStats = memo(function TodoStats() {
   console.log("[TodoStats] renderizando");
 
-  const { todos } = useTodo();
-
-  const stats = useMemo(() => ({
-    total: todos.length,
-    done: todos.filter((t) => t.done).length,
-    pending: todos.filter((t) => !t.done).length,
-  }), [todos]);
+  const { stats } = useTodos();
 
   return (
     <div className="stats">
